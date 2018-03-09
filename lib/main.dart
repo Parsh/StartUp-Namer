@@ -6,7 +6,7 @@ void main(){
     new MaterialApp(
       title: "StartUp Namer App",
       color: Colors.blue,
-      home:  new StartUpNamer()  
+      home: new StartUpNamer()  
     )
   );
 }
@@ -14,18 +14,7 @@ void main(){
 class StartUpNamer extends StatelessWidget{
   @override
   Widget build(BuildContext content){
-      return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Let's Name Your StartUp"),
-          backgroundColor: Colors.blue,
-        ),
-        backgroundColor: Colors.blue,
-        body: new Container(
-          child: new Center(
-            child: new RandomWords()
-          )
-        )
-      );
+      return new RandomWords();
   }
 }
 
@@ -38,11 +27,14 @@ class RandomWordsState extends State<RandomWords>{
   @override
   Widget build(BuildContext context){
 
-    List suggestions = new List<Widget>();
+    List suggestions = new List<WordPair>();
+    Set saved = new Set<WordPair>();
 
     Widget buildRow(WordPair wordPair){
+      bool alreadySaved = saved.contains(wordPair);
       return new ListTile(
         title: new  Text(wordPair.asPascalCase, style:  new TextStyle(fontSize: 20.0)),
+        trailing: new Icon(alreadySaved ? Icons.favorite: Icons.favorite_border, color: alreadySaved? Colors.red: null),
       );
     }
 
@@ -62,7 +54,7 @@ class RandomWordsState extends State<RandomWords>{
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("StatrUp Namer"),
+        title: new Text("Lets Name Your StartUp"),
         backgroundColor: Colors.blue,
       ),
       body: buildSuggestions(),
