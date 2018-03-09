@@ -8,9 +8,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Startup Name Generator',
-      routes: <String, WidgetBuilder>{
-        '/favList': (BuildContext context) => new FavoriteList()
-      },
       home: new RandomWords(),
     );
   }
@@ -65,7 +62,38 @@ class RandomWordsState extends State<RandomWords>{
     );
   }
 
+void pushSaved(){
+  Navigator.of(context).push(
+    new MaterialPageRoute(
+      builder: (context){
+        
+        var tiles = saved.map(
+          (wordPair){
+            return new ListTile(
+              title: new Text(
+                wordPair.asPascalCase,
+                style: new TextStyle(fontSize: 20.0)
+            )
+          );
+          }
+        ); 
 
+        var divided = ListTile.divideTiles(
+          context: context, 
+          tiles: tiles
+          ).toList();
+
+        return new Scaffold(
+          appBar: new AppBar(
+            title: new Text('Saved Suggestions'),
+            backgroundColor: Colors.blue
+          ),
+          body: new ListView(children: divided)
+        );    
+      }
+    )
+  );
+}
 
  @override
   Widget build(BuildContext context){
@@ -74,22 +102,10 @@ class RandomWordsState extends State<RandomWords>{
         title: new Text("StartUp Name Generator"),
         backgroundColor: Colors.blue,
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.list), onPressed: ()=> Navigator.of(context).pushNamed('/favList'))
+          new IconButton(icon: new Icon(Icons.list), onPressed:pushSaved)
         ],
       ),
       body: buildSuggestions(),
-    );
-  }
-}
-
-class FavoriteList extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Favorites'),
-        backgroundColor: Colors.blue,
-      ),
     );
   }
 }
