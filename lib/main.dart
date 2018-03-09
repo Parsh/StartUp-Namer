@@ -8,6 +8,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Startup Name Generator',
+      routes: <String, WidgetBuilder>{
+        '/favList': (BuildContext context) => new FavoriteList()
+      },
       home: new RandomWords(),
     );
   }
@@ -62,14 +65,31 @@ class RandomWordsState extends State<RandomWords>{
     );
   }
 
+
+
  @override
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("StartUp Name Generator"),
         backgroundColor: Colors.blue,
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.list), onPressed: ()=> Navigator.of(context).pushNamed('/favList'))
+        ],
       ),
       body: buildSuggestions(),
+    );
+  }
+}
+
+class FavoriteList extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Favorites'),
+        backgroundColor: Colors.blue,
+      ),
     );
   }
 }
